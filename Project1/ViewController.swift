@@ -12,7 +12,10 @@ class ViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        title = "Storm Viewer"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
         let items = try! fm.contentsOfDirectory(atPath: path)
@@ -32,6 +35,18 @@ class ViewController: UITableViewController {
         cell.textLabel?.text = pictures[indexPath.row]
         return cell
     }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // 1: "Detail" ビューコントローラをロードし、DetailViewController にタイプキャストしてみる。
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
+            // 2: 成功! selectedImageプロパティを設定する
+            vc.selectedImage = pictures[indexPath.row]
+
+            // 3：今度はナビゲーションコントローラーに押し込む
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+
 
 
 }
