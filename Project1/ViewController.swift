@@ -18,7 +18,7 @@ class ViewController: UITableViewController {
         
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
-        let items = try! fm.contentsOfDirectory(atPath: path)
+        let items = try! fm.contentsOfDirectory(atPath: path).sorted(by: >)
         
         for item in items {
             if item.hasPrefix("nssl") {
@@ -40,8 +40,8 @@ class ViewController: UITableViewController {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
             // 2: 成功! selectedImageプロパティを設定する
             vc.selectedImage = pictures[indexPath.row]
-            vc.imagesCount = pictures.count
-            vc.images = pictures
+            vc.totalPictures = pictures.count
+            vc.selectedPictureNumber = indexPath.row + 1
 
             // 3：今度はナビゲーションコントローラーに押し込む
             navigationController?.pushViewController(vc, animated: true)
