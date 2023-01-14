@@ -40,6 +40,8 @@ class ViewController: UITableViewController {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
             // 2: 成功! selectedImageプロパティを設定する
             vc.selectedImage = pictures[indexPath.row]
+            vc.imagesCount = pictures.count
+            vc.images = pictures
 
             // 3：今度はナビゲーションコントローラーに押し込む
             navigationController?.pushViewController(vc, animated: true)
