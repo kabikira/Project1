@@ -9,6 +9,7 @@ import UIKit
 
 class ViewController: UITableViewController {
     var pictures = [String]()
+    var userDefaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,8 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Picture", for: indexPath)
         cell.textLabel?.text = pictures[indexPath.row]
+        cell.detailTextLabel?.text = String(userDefaults.integer(forKey: pictures[indexPath.row]))
+        
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -46,12 +49,22 @@ class ViewController: UITableViewController {
             vc.selectedImage = pictures[indexPath.row]
             vc.totalPictures = pictures.count
             vc.selectedPictureNumber = indexPath.row + 1
+            var num = userDefaults.integer(forKey: pictures[indexPath.row])
+            num += 1
+            userDefaultsSet(number: num, key: pictures[indexPath.row])
+
 
             // 3：今度はナビゲーションコントローラーに押し込む
             navigationController?.pushViewController(vc, animated: true)
         }
     }
+    func userDefaultsSet(number: Int, key: String) {
+        userDefaults.set(number, forKey: key)
+        print(userDefaults.integer(forKey: key))
+        tableView.reloadData()
+    }
     
+
 
 
 
